@@ -24,5 +24,8 @@ def create_dataframe(path_name: str) -> pd.DataFrame:
         data = json.load(f)
 
     df = pd.json_normalize(data)
+
     logging.info(f"DataFrame criado com sucesso. Número de linhas: {len(df)}, Número de colunas: {len(df.columns)}")  
-    return df  
+
+    return df
+    
