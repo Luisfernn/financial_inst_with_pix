@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 url_apibrasil = "https://brasilapi.com.br/api/pix/v1/participants"
 
-def extract_apibrasil_data(url: str) -> list:
+def extract_pix_data(url: str) -> list:
     """
     Extrai os dados de PIX a partir da API e salva em um arquivo JSON.
     """
@@ -41,4 +41,4 @@ def extract_apibrasil_data(url: str) -> list:
         return []
 
 
-extract_apibrasil_data(url_apibrasil)
+extract_pix_data(url_apibrasil)
