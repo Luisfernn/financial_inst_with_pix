@@ -6,37 +6,39 @@ from pathlib import Path
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-url = "https://brasilapi.com.br/api/pix/v1/participants"
+url_apibrasil = "https://brasilapi.com.br/api/pix/v1/participants"
 
-def extract_pix_data(url: str) -> list:
+def extract_apibrasil_data(url: str) -> list:
     """
     Extrai os dados de PIX a partir da API e salva em um arquivo JSON.
     """
 
+    try:
+        logging.info(f"Extraindo dados de API Brasil: {url}...")
 
-    response = requests.get(url)
+        response = requests.get(url, timeout=15)
+        response.raise_for_status()
 
-    if response.status_code != 200:
-        logging.error(f"Falha na requisição para {url}. Status code: {response.status_code}")
+        data = response.json()
+
+        if not data:
+            logging.warning("Nenhum dado encontrado na resposta da API.")
+            return []
+
+        output_path = Path('data') / 'pix_data.json' 
+        output_dir = Path(output_path).parent
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        with open (output_path, 'w') as f:
+            json.dump(data, f, indent=4)
+
+
+        logging.info(f"Dados extraídos e salvos em {output_path}")    
+        return data
+    
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Erro ao extrair dados da API: {e}")
         return []
 
-    data = response.json()
 
-    if not data:
-        logging.warning(f"Nenhum dado encontrado em {url}.")
-        return []    
-
-
-    output_path = Path('data') / 'pix_data.json' 
-    output_dir = Path(output_path).parent
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    with open (output_path, 'w') as f:
-        json.dump(data, f, indent=4)
-
-    logging.info(f"Dados extraídos e salvos em {output_path}")    
-
-    return data
-
-
-extract_pix_data(url)
+extract_apibrasil_data(url_apibrasil)
