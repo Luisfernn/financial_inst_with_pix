@@ -51,7 +51,7 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
     return df_ref_bcb
 
 
-# Preparando pix_dataframe para o merge
+# Preparando dados da fonge original para o merge
 
 
 def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
@@ -89,3 +89,52 @@ def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
     logging.info(f"Preparação do DataFrame do PIX concluída com sucesso. Shape: {df.shape}") 
 
     return df   
+
+
+
+# Preparando dados referência para o merge
+
+
+def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
+
+    """
+    Renomeia colunas, remove espaços vazios, converte str vazias para NaN, ordena e remove duplicatas de CNPJ
+    """
+
+    logging.info("Iniciando a preparação dos dados referência do BCB")
+
+    if df.empty:
+        logging.warning("O DataFrame do BCB está vazio. Nenhuma preparação será realizada.")
+        return df
+    
+
+    df = df.rename(columns={
+        'nomeDoPais': 'nome_pais',
+        'nomeEntidadeInteresse': 'nome_entidade_interesse',
+        'codigoCNPJ8': 'cnpj_raiz',
+        'codigoTipoEntidadeSupervisionada': 'codigo_tipo_entidade',
+        'descricaoTipoEntidadeSupervisionada': 'categoria',
+        'nomeFantasia': 'nome_fantasia',
+        'indicadorEsferaPublica': 'indicador_esfera_publica'
+    })
+
+    try:
+        etapa = "Remover espaços vazios em '[nome_fantasia']"
+        df['nome_fantasia'] = df['nome_fantasia'].str.strip()
+
+        etapa = "Substituir str vazias por NaN em ['nome_fantasia']"
+        df['nome_fantasia'] = df['nome_fantasia'].replace(r'^\s*$', pd.NA, regex=True)
+        
+        etapa = "Ordenar linhas iguais com NaN"
+        df = df.sort_values(by='nome_fantasia', na_position='last')
+
+        etapa = "Drop duplicatas"
+        df = df.drop_duplicates(subset='cnpj_raiz', keep='first')
+
+    except Exception as e:
+        logging.error(f"Erro na etapa {etapa}: {e}")
+        raise    
+
+    logging.info(f"Preparação do DataFrame do BCB concluída com sucesso. Shape: {df.shape}")
+
+    return df
