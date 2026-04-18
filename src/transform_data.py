@@ -26,7 +26,7 @@ def create_pix_dataframe(path: str) -> pd.DataFrame:
 
     df_pix = pd.json_normalize(data)
 
-    logging.info(f"DataFrame do PIX criado com sucesso. Número de linhas: {len(df_pix)}, Número de colunas: {len(df_pix.columns)}")  
+    logging.info(f"DataFrame do PIX criado com sucesso. Shape: {df_pix.shape}")  
 
     return df_pix
 
@@ -46,7 +46,7 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
 
     df_ref_bcb = pd.json_normalize(data)
 
-    logging.info(f"DataFrame do Banco Central criado com sucesso. Número de linhas: {len(df_ref_bcb)}, Número de colunas: {len(df_ref_bcb.columns)}")    
+    logging.info(f"DataFrame do Banco Central criado com sucesso. Shape: {df_ref_bcb.shape}")    
 
     return df_ref_bcb
 
