@@ -54,7 +54,7 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
 # Preparando pix_dataframe para o merge
 
 
-def prepare_pix_dataframe (df: pd.DataFrame) -> pd.DataFrame:
+def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
 
     """
     Realiza a limpeza, slicing e tipagem dos dados brutos do PIX (primeira fonte)
@@ -89,4 +89,3 @@ def prepare_pix_dataframe (df: pd.DataFrame) -> pd.DataFrame:
     logging.info(f"Preparação do DataFrame do PIX concluída com sucesso. Shape: {df.shape}") 
 
     return df   
-                    
