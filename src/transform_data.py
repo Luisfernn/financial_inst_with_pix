@@ -54,4 +54,39 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
 # Preparando pix_dataframe para o merge
 
 
+def prepare_pix_dataframe (df: pd.DataFrame) -> pd.DataFrame:
 
+    """
+    Realiza a limpeza, slicing e tipagem dos dados brutos do PIX (primeira fonte)
+    """
+
+    logging.info("Iniciando a preparação do DataFrame do PIX...")
+
+    if df.empty:
+        logging.warning("O DataFrame do PIX está vazio. Nenhuma preparação será realizada.")
+        return df
+    
+    steps = {
+        "Dtype (inicio_operação)": lambda d: pd.to_datetime(d['inicio_operação']),
+        "Silicing (cnpj_raiz)": lambda d: d['cnpj'].str[:8],
+        "Limpeza (strip nomes)": lambda d: d['nome'].str.strip()
+    }
+
+    for step_name, operation in steps.items():
+        try:
+            logging.info(f"Executando etapa: {step_name}")
+            if step_name == "Dtype (inicio_operação)":
+                df['inicio_operação'] = operation(df)
+            elif step_name == "Silicing (cnpj_raiz)":
+                df['cnpj_raiz'] = operation(df)
+            elif step_name == "Limpeza (strip nomes)":
+                df['nome'] = operation(df)    
+
+        except Exception as e:
+            logging.error(f"Erro na etapa '{step_name}': {e}")
+            raise
+
+    logging.info(f"Preparação do DataFrame do PIX concluída com sucesso. Shape: {df.shape}") 
+
+    return df   
+                    
