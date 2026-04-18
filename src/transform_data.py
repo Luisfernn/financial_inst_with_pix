@@ -9,6 +9,8 @@ path_name_pix = Path(__file__).parent.parent / 'data' / 'pix_data.json'
 path_name_bcb = Path(__file__).parent.parent / 'data' / 'bcb_reference.json'
 
 
+# Criando os DataFrames a partir dos arquivos JSON extraídos
+
 def create_pix_dataframe(path: str) -> pd.DataFrame:
     """
     Cria um DataFrame a partir do arquivo JSON contendo os dados de PIX.
@@ -47,4 +49,7 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
     logging.info(f"DataFrame do Banco Central criado com sucesso. Número de linhas: {len(df_ref_bcb)}, Número de colunas: {len(df_ref_bcb.columns)}")    
 
     return df_ref_bcb
-    
+
+
+# Preparando os DataFrames para o merge
+
