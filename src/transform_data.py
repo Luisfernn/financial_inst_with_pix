@@ -51,5 +51,7 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
     return df_ref_bcb
 
 
-# Preparando os DataFrames para o merge
+# Preparando pix_dataframe para o merge
+
+
 
