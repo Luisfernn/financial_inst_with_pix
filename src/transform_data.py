@@ -138,3 +138,10 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
     logging.info(f"Preparação do DataFrame do BCB concluída com sucesso. Shape: {df.shape}")
 
     return df
+
+
+df_pix = create_pix_dataframe(path_name_pix)
+df_bcb = create_bcb_dataframe(path_name_bcb)
+
+df_pix_ready = prepare_pix_data(df_pix)
+df_bcb_ready = prepare_bcb_data(df_bcb)
