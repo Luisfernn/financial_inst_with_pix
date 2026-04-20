@@ -67,7 +67,7 @@ def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
         return df
     
     steps = {
-        "Dtype (inicio_operação)": lambda d: pd.to_datetime(d['inicio_operação']),
+        "Dtype (inicio_operação)": lambda d: pd.to_datetime(d['inicio_operacao']),
         "Silicing (cnpj_raiz)": lambda d: d['cnpj'].str[:8],
         "Limpeza (strip nomes)": lambda d: d['nome'].str.strip()
     }
@@ -76,7 +76,7 @@ def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
         try:
             logging.info(f"Executando etapa: {step_name}")
             if step_name == "Dtype (inicio_operação)":
-                df['inicio_operação'] = operation(df)
+                df['inicio_operacao'] = operation(df)
             elif step_name == "Silicing (cnpj_raiz)":
                 df['cnpj_raiz'] = operation(df)
             elif step_name == "Limpeza (strip nomes)":
