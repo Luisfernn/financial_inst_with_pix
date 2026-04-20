@@ -66,9 +66,11 @@ def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
         logging.warning("O DataFrame do PIX está vazio. Nenhuma preparação será realizada.")
         return df
     
+    df = df.rename(columns={'cnpj': 'cnpj_raiz'})
+
     steps = {
         "Dtype (inicio_operação)": lambda d: pd.to_datetime(d['inicio_operacao']),
-        "Silicing (cnpj_raiz)": lambda d: d['cnpj'].str[:8],
+        "Silicing (cnpj_raiz)": lambda d: d['cnpj_raiz'].str[:8],
         "Limpeza (strip nomes)": lambda d: d['nome'].str.strip()
     }
 
