@@ -113,7 +113,7 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
     
 
     df = df.rename(columns={
-        'nomeDoPais': 'nome_pais',
+        'nomeDoPais': 'pais_sede',
         'nomeEntidadeInteresse': 'nome_entidade_interesse',
         'codigoCNPJ8': 'ispb',
         'codigoTipoEntidadeSupervisionada': 'codigo_tipo_entidade',
