@@ -111,7 +111,7 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
     df = df.rename(columns={
         'nomeDoPais': 'nome_pais',
         'nomeEntidadeInteresse': 'nome_entidade_interesse',
-        'codigoCNPJ8': 'cnpj_raiz',
+        'codigoCNPJ8': 'ispb',
         'codigoTipoEntidadeSupervisionada': 'codigo_tipo_entidade',
         'descricaoTipoEntidadeSupervisionada': 'categoria',
         'nomeFantasia': 'nome_fantasia',
@@ -129,7 +129,7 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
         df = df.sort_values(by='nome_fantasia', na_position='last')
 
         etapa = "Drop duplicatas"
-        df = df.drop_duplicates(subset='cnpj_raiz', keep='first')
+        df = df.drop_duplicates(subset='ispb', keep='first')
 
     except Exception as e:
         logging.error(f"Erro na etapa {etapa}: {e}")
