@@ -234,6 +234,7 @@ def refine_final_data(df: pd.DataFrame, cleaning_func: clean_short_names) -> pd.
 
 def process_transformation(path_name_pix, path_name_bcb):
     """Encapsula todo o fluxo de transformação para ser chamado pelo Main"""
+    
     df_pix = create_pix_dataframe(path_name_pix)
     df_bcb = create_bcb_dataframe(path_name_bcb)
 
