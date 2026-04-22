@@ -74,5 +74,8 @@ def extract_bcb_reference(url: str) -> list:
         return []
 
 
-extract_pix_data(url_apibrasil)
-extract_bcb_reference(url_bcb)
+
+if __name__ == "__main__":
+    
+    extract_pix_data(url_apibrasil)
+    extract_bcb_reference(url_bcb)
