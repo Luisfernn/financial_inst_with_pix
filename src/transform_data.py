@@ -163,9 +163,9 @@ def merge_data(df_pix: pd.DataFrame, df_bcb: pd.DataFrame) -> pd.DataFrame:
         return pd.DataFrame()
     
     try:
-        df_final = pd.merge(df_pix, df_bcb, on='ispb', how='left', suffixes=('_pix', '_bcb'))
-        logging.info(f"Merge concluído com sucesso. Shape do DataFrame final: {df_final.shape}")
-        return df_final
+        df_merged = pd.merge(df_pix, df_bcb, on='ispb', how='left', suffixes=('_pix', '_bcb'))
+        logging.info(f"Merge concluído com sucesso. Shape do DataFrame final: {df_merged.shape}")
+        return df_merged
     except Exception as e:
         logging.error(f"Erro ao realizar o merge: {e}")
         raise
@@ -227,4 +227,4 @@ df_bcb = create_bcb_dataframe(path_name_bcb)
 df_pix_ready = prepare_pix_data(df_pix)
 df_bcb_ready = prepare_bcb_data(df_bcb)
 
-df_final = merge_data(df_pix_ready, df_bcb_ready)
+df_merged = merge_data(df_pix_ready, df_bcb_ready)
