@@ -65,22 +65,20 @@ def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
     if df.empty:
         logging.warning("O DataFrame do PIX está vazio. Nenhuma preparação será realizada.")
         return df
-    
-    df = df.rename(columns={'cnpj': 'cnpj_raiz'})
 
     steps = {
-        "Dtype (inicio_operação)": lambda d: pd.to_datetime(d['inicio_operacao']),
-        "Silicing (cnpj_raiz)": lambda d: d['cnpj_raiz'].str[:8],
+        "Dtype (inicio_operacao)": lambda d: pd.to_datetime(d['inicio_operacao']),
+        "Z fill (ispb)": lambda d: d['ispb'].fillna('0').astype(str).str.zfill(8),
         "Limpeza (strip nomes)": lambda d: d['nome'].str.strip()
     }
 
     for step_name, operation in steps.items():
         try:
             logging.info(f"Executando etapa: {step_name}")
-            if step_name == "Dtype (inicio_operação)":
+            if step_name == "Dtype (inicio_operacao)":
                 df['inicio_operacao'] = operation(df)
-            elif step_name == "Silicing (cnpj_raiz)":
-                df['cnpj_raiz'] = operation(df)
+            elif step_name == "Z fill (ispb)":
+                df['ispb'] = operation(df)   
             elif step_name == "Limpeza (strip nomes)":
                 df['nome'] = operation(df)    
 
