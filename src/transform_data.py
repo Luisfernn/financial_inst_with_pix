@@ -143,8 +143,33 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def merge_data(df_pix: pd.Dataframe, df_bcb: pd.DataFrame) -> pd.DataFrame:
+    """
+    Realiza o merge dos DataFrames do PIX e do Banco Central utilizando a coluna 'ispb' como chave.
+    """
+
+    logging.info("Iniciando o merge dos DataFrames do Pix e do Banco Central...")
+
+    if df_pix.empty:
+        logging.warning("O DataFrame do PIX está vazio. O merge resultará em um DataFrame vazio.")
+        return pd.DataFrame()
+    
+    if df_bcb.empty:
+        logging.warning("O DataFrame do Banco Central está vazio. O merge resultará em um DataFrame vazio.")
+        return pd.DataFrame()
+    
+    try:
+        df_final = pd.merge(df_pix, df_bcb, on='ispb', how='left', suffixes=('_pix', '_bcb'))
+        logging.info(f"Merge concluído com sucesso. Shape do DataFrame final: {df_final.shape}")
+        return df_final
+    except Exception as e:
+        logging.error(f"Erro ao realizar o merge: {e}")
+        raise
+
 df_pix = create_pix_dataframe(path_name_pix)
 df_bcb = create_bcb_dataframe(path_name_bcb)
 
 df_pix_ready = prepare_pix_data(df_pix)
 df_bcb_ready = prepare_bcb_data(df_bcb)
+
+df_final = merge_data(df_pix_ready, df_bcb_ready)
