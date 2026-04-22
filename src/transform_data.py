@@ -119,6 +119,9 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
     })
 
     try:
+        etapa = "Z fill e tratamento de NaN em ['ispb']"
+        df['ispb'] = df['ispb'].fillna('0').astype(str).str.zfill(8)
+
         etapa = "Remover espaços vazios em '[nome_fantasia']"
         df['nome_fantasia'] = df['nome_fantasia'].str.strip()
 
