@@ -1,6 +1,7 @@
 import pandas as pd
 from pathlib import Path
 import json
+import re
 
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -165,6 +166,22 @@ def merge_data(df_pix: pd.DataFrame, df_bcb: pd.DataFrame) -> pd.DataFrame:
     except Exception as e:
         logging.error(f"Erro ao realizar o merge: {e}")
         raise
+
+
+def clean_short_names(text):
+    """
+    Limpa nomes do tipo de instituição e siglas de nomes jurídicos removendo sufixos comuns como S.A., COOP,  etc.
+    """
+
+    if pd.isna(text):
+        return text
+    
+    text = str(text).upper()
+
+    patterns = r'\b(S\.?A\.?|LTDA|COOP|SCD|CFI|CCB)\b|S/A'
+    text = re.sub(patterns, '', text)
+    
+    return re.sub(r'\s+', ' ', text).strip()    
 
 df_pix = create_pix_dataframe(path_name_pix)
 df_bcb = create_bcb_dataframe(path_name_bcb)
