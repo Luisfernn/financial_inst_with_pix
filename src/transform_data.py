@@ -143,7 +143,7 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def merge_data(df_pix: pd.Dataframe, df_bcb: pd.DataFrame) -> pd.DataFrame:
+def merge_data(df_pix: pd.DataFrame, df_bcb: pd.DataFrame) -> pd.DataFrame:
     """
     Realiza o merge dos DataFrames do PIX e do Banco Central utilizando a coluna 'ispb' como chave.
     """
