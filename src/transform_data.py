@@ -44,11 +44,11 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
     with open(path, 'r', encoding='utf-8') as f:
         data = json.load(f)
 
-    df_ref_bcb = pd.json_normalize(data)
+    df_bcb = pd.json_normalize(data)
 
-    logging.info(f"DataFrame do Banco Central criado com sucesso. Shape: {df_ref_bcb.shape}")    
+    logging.info(f"DataFrame do Banco Central criado com sucesso. Shape: {df_bcb.shape}")    
 
-    return df_ref_bcb
+    return df_bcb
 
 
 # Preparando dados da fonge original para o merge
