@@ -6,8 +6,8 @@ import re
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-path_name_pix = Path(__file__).parent.parent / 'data' / 'pix_data.json'
-path_name_bcb = Path(__file__).parent.parent / 'data' / 'bcb_reference.json'
+path_name_pix = Path(__file__).parent.parent / 'data' / 'bronze' / 'pix_data.json'
+path_name_bcb = Path(__file__).parent.parent / 'data' / 'bronze' / 'bcb_reference.json'
 
 
 # Criando os DataFrames a partir dos arquivos JSON extraídos

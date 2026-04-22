@@ -26,7 +26,7 @@ def extract_pix_data(url: str) -> list:
             logging.warning("Nenhum dado encontrado na resposta da API.")
             return []
 
-        output_path = Path('data') / 'pix_data.json' 
+        output_path = Path('data') / 'bronze' / 'pix_data.json' 
         output_dir = Path(output_path).parent
         output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -59,7 +59,7 @@ def extract_bcb_reference(url: str) -> list:
             logging.warning("Nenhum dado encontrado na resposta da API.")
             return []
         
-        output_path = Path('data') / 'bcb_reference.json'
+        output_path = Path('data') / 'bronze' / 'bcb_reference.json'
         output_dir = Path(output_path).parent
         output_dir.mkdir(parents=True, exist_ok=True)
 
