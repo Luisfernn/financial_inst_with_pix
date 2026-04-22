@@ -181,7 +181,41 @@ def clean_short_names(text):
     patterns = r'\b(S\.?A\.?|LTDA|COOP|SCD|CFI|CCB)\b|S/A'
     text = re.sub(patterns, '', text)
     
-    return re.sub(r'\s+', ' ', text).strip()    
+    return re.sub(r'\s+', ' ', text).strip()
+
+
+def refine_final_data(df: pd.DataFrame) -> pd.DataFrame:    
+    """Realiza a refinação final do DataFrame resultante do merge, criando coluna de pesquisa de nomes e definindo colunas finais.
+    """
+
+    logging.info("Iniciando refinação final do DataFrame...")
+
+    if df.empty:
+        logging.warning("O DataFrame final está vazio. Nenhuma refinação será realizada.")
+        return df
+    
+    try:
+        # Aplica bussiness rule de limpeza textual
+        df['nome_reduzido'] = df['nome_reduzido'].apply(clean_short_names)
+
+        # Cria coluna de busca de nome facilitado, preenchendo com a prioridade nome_fantasia -> nome_reduzido
+        df['nome_busca'] = df['nome_fantasia'].fillna(df['nome_reduzido'])
+        
+        # Aplica a limpeza textual na coluna de busca para garantir consistência
+        df['nome_busca'] = df['nome_busca'].apply(clean_short_names)
+        
+        # Colunas que serão mantidas no DataFrame final
+        cols_to_keep = ['ispb', 'nome_busca', 'categoria', 'inicio_operacao', 'tipo_participante']
+
+        df_silver = df[cols_to_keep].copy()
+
+        logging.info(f"Refinação concluída. Registro 1: {df_silver['nome_busca'].iloc[0]}")
+        return df_silver
+    
+    except Exception as e:
+        logging.error(f"Erro durante a refinação final: {e}")
+        raise
+
 
 df_pix = create_pix_dataframe(path_name_pix)
 df_bcb = create_bcb_dataframe(path_name_bcb)
