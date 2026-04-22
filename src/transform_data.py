@@ -52,8 +52,8 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
     return df_bcb
 
 
-# Preparando dados da fonge original para o merge
 
+# Preparando dados da fonge original (PIX) para o merge
 
 def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -97,8 +97,7 @@ def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
 
 
 
-# Preparando dados referência para o merge
-
+# Preparando dados referência (BCB) para o merge
 
 def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -147,6 +146,9 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+
+# Merge das duas fontes de dados
+
 def merge_data(df_pix: pd.DataFrame, df_bcb: pd.DataFrame) -> pd.DataFrame:
     """
     Realiza o merge dos DataFrames do PIX e do Banco Central utilizando a coluna 'ispb' como chave.
@@ -171,6 +173,9 @@ def merge_data(df_pix: pd.DataFrame, df_bcb: pd.DataFrame) -> pd.DataFrame:
         raise
 
 
+
+# Bussiness rules de limpeza textual usada na função refine_final_data
+
 def clean_short_names(text):
     """
     Limpa nomes do tipo de instituição e siglas de nomes jurídicos removendo sufixos comuns como S.A., COOP,  etc.
@@ -186,6 +191,9 @@ def clean_short_names(text):
     
     return re.sub(r'\s+', ' ', text).strip()
 
+
+
+# Refinação final do DataFrame resultante do merge
 
 def refine_final_data(df: pd.DataFrame) -> pd.DataFrame:    
     """
@@ -219,6 +227,7 @@ def refine_final_data(df: pd.DataFrame) -> pd.DataFrame:
     except Exception as e:
         logging.error(f"Erro durante a refinação final: {e}")
         raise
+
 
 
 df_pix = create_pix_dataframe(path_name_pix)
