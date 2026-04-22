@@ -230,6 +230,24 @@ def refine_final_data(df: pd.DataFrame, cleaning_func: clean_short_names) -> pd.
 
 
 
+# Função que encapsula todo o fluxo de transformação para ser chamada pelo Main
+
+def process_transformation(path_name_pix, path_name_bcb):
+    """Encapsula todo o fluxo de transformação para ser chamado pelo Main"""
+    df_pix = create_pix_dataframe(path_name_pix)
+    df_bcb = create_bcb_dataframe(path_name_bcb)
+
+    df_pix_ready = prepare_pix_data(df_pix)
+    df_bcb_ready = prepare_bcb_data(df_bcb)
+
+    df_merged = merge_data(df_pix_ready, df_bcb_ready)
+    
+    df_silver = refine_final_data(df_merged, cleaning_func=clean_short_names)
+    
+    return df_silver
+
+
+
 if __name__ == "__main__":
 
     df_pix = create_pix_dataframe(path_name_pix)
