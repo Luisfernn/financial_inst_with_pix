@@ -195,7 +195,7 @@ def clean_short_names(text):
 
 # Refinação final do DataFrame resultante do merge
 
-def refine_final_data(df: pd.DataFrame) -> pd.DataFrame:    
+def refine_final_data(df: pd.DataFrame, cleaning_func: clean_short_names) -> pd.DataFrame:    
     """
     Realiza a refinação final do DataFrame resultante do merge, criando coluna de pesquisa de nomes e definindo colunas finais.
     """
