@@ -57,7 +57,7 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
 
 def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
     """
-    Realiza a limpeza, tipagem, e remove espaços em branco dos dados brutos do PIX
+    Realiza a limpeza, tipagem, remove espaços em branco e renomeia colunas dos dados brutos do PIX
     """
 
     logging.info("Iniciando a preparação do DataFrame do PIX...")
@@ -69,7 +69,9 @@ def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
     steps = {
         "Dtype (inicio_operacao)": lambda d: pd.to_datetime(d['inicio_operacao']),
         "Z fill (ispb)": lambda d: d['ispb'].fillna('0').astype(str).str.zfill(8),
-        "Limpeza (strip nomes)": lambda d: d['nome'].str.strip()
+        "Renomear coluna (nome_juridico)": lambda d: d.rename(columns={'nome': 'nome_juridico'}),
+        "Limpeza (strip nomes)": lambda d: d['nome_juridico'].str.strip(),
+        
     }
 
     for step_name, operation in steps.items():
@@ -78,9 +80,12 @@ def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
             if step_name == "Dtype (inicio_operacao)":
                 df['inicio_operacao'] = operation(df)
             elif step_name == "Z fill (ispb)":
-                df['ispb'] = operation(df)   
+                df['ispb'] = operation(df) 
+            elif step_name == "Renomear coluna (nome_juridico)":
+                df = operation(df)      
             elif step_name == "Limpeza (strip nomes)":
-                df['nome'] = operation(df)    
+                df['nome_juridico'] = operation(df)    
+           
 
         except Exception as e:
             logging.error(f"Erro na etapa '{step_name}': {e}")
