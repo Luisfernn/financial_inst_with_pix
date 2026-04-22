@@ -30,8 +30,8 @@ def extract_pix_data(url: str) -> list:
         output_dir = Path(output_path).parent
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        with open (output_path, 'w') as f:
-            json.dump(data, f, indent=4)
+        with open (output_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
 
 
         logging.info(f"Dados extraídos e salvos em {output_path}")    
@@ -76,6 +76,6 @@ def extract_bcb_reference(url: str) -> list:
 
 
 if __name__ == "__main__":
-    
+
     extract_pix_data(url_apibrasil)
     extract_bcb_reference(url_bcb)
