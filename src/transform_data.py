@@ -204,7 +204,7 @@ def refine_final_data(df: pd.DataFrame) -> pd.DataFrame:
         df['nome_busca'] = df['nome_busca'].apply(clean_short_names)
         
         # Colunas que serão mantidas no DataFrame final
-        cols_to_keep = ['ispb', 'nome_busca', 'categoria', 'inicio_operacao', 'tipo_participante']
+        cols_to_keep = ['ispb', 'nome_juridico', 'nome_busca', 'categoria', 'pais_sede', 'inicio_operacao']
 
         df_silver = df[cols_to_keep].copy()
 
