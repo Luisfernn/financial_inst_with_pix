@@ -56,9 +56,8 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
 
 
 def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
-
     """
-    Realiza a limpeza, slicing e tipagem dos dados brutos do PIX (primeira fonte)
+    Realiza a limpeza, tipagem, e remove espaços em branco dos dados brutos do PIX
     """
 
     logging.info("Iniciando a preparação do DataFrame do PIX...")
@@ -97,7 +96,6 @@ def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
 
 
 def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
-
     """
     Renomeia colunas, remove espaços vazios, converte str vazias para NaN, ordena e remove duplicatas de CNPJ
     """
@@ -185,7 +183,8 @@ def clean_short_names(text):
 
 
 def refine_final_data(df: pd.DataFrame) -> pd.DataFrame:    
-    """Realiza a refinação final do DataFrame resultante do merge, criando coluna de pesquisa de nomes e definindo colunas finais.
+    """
+    Realiza a refinação final do DataFrame resultante do merge, criando coluna de pesquisa de nomes e definindo colunas finais.
     """
 
     logging.info("Iniciando refinação final do DataFrame...")
