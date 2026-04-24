@@ -15,7 +15,7 @@ def extract_pix_data(url: str) -> list:
     """
 
     try:
-        logging.info(f"Extraindo dados de API Brasil: {url}...")
+        logging.info(f"Extraindo dados de API Brasil...")
 
         response = requests.get(url, timeout=15)
         response.raise_for_status()
@@ -48,7 +48,7 @@ def extract_bcb_reference(url: str) -> list:
     """
 
     try:
-        logging.info(f"Extraindo dados da API do Banco Central: {url_bcb}...")
+        logging.info(f"Extraindo dados da API do Banco Central...")
 
         response = requests.get(url_bcb, timeout=15)
         response.raise_for_status()
