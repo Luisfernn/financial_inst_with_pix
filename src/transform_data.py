@@ -54,6 +54,14 @@ def create_bcb_dataframe(path: str) -> pd.DataFrame:
 
 
 
+# Função de limpeza de acentos para padronização textual
+
+def remove_accents(text):
+    if pd.isna(text):
+        return text
+    return "".join(c for c in unicodedata.normalize('NFD', str(text)) if not unicodedata.combining(c))
+
+
 # Preparando dados da fonge original (PIX) para o merge
 
 def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
@@ -100,7 +108,7 @@ def prepare_pix_data (df: pd.DataFrame) -> pd.DataFrame:
 
 # Preparando dados referência (BCB) para o merge
 
-def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
+def prepare_bcb_data (df: pd.DataFrame, normalization_func: remove_accents) -> pd.DataFrame:
     """
     Renomeia colunas, remove espaços vazios, converte str vazias para NaN, ordena e remove duplicatas de CNPJ
     """
@@ -139,12 +147,11 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
         df['categoria'] = df['categoria'].fillna('nao_classificada')
 
         etapa = "Remover acentos e padronizar ['categoria']"
-        df['categoria'] = df['categoria'].apply(
-            lambda x: "".join(c for c in unicodedata.normalize('NFD', str(x)) if not unicodedata.combining(c)).lower().strip() if pd.notna(x) else x
+        df['categoria'] = df['categoria'].apply(remove_accents).str.lower().str.strip(
         )
 
-        etapa = "Padronizar com title case e remover espaços de ['pais_sede']" 
-        df['pais_sede'] = df['pais_sede'].str.title().str.strip()
+        etapa = "Remover acentos, espaços vazios e padronizar com title case ['pais_sede']"
+        df['pais_sede'] = df['pais_sede'].apply(remove_accents).str.title().str.strip()
 
         etapa = "Ordenar linhas iguais com NaN"
         df = df.sort_values(by='nome_fantasia', na_position='last')
