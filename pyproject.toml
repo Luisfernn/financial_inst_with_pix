@@ -12,3 +12,7 @@ dependencies = [
     "requests>=2.33.1",
     "sqlalchemy>=2.0.49",
 ]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
