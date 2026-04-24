@@ -137,6 +137,9 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
             lambda x: "".join(c for c in unicodedata.normalize('NFD', str(x)) if not unicodedata.combining(c)).lower().strip() if pd.notna(x) else x
         )
 
+        etapa = "Padronizar com title case e remover espaços de ['pais_sede']" 
+        df['pais_sede'] = df['pais_sede'].str.title().str.strip()
+
         etapa = "Ordenar linhas iguais com NaN"
         df = df.sort_values(by='nome_fantasia', na_position='last')
 
