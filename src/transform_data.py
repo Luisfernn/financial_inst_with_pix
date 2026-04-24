@@ -261,7 +261,7 @@ def process_transformation(path_name_pix, path_name_bcb):
     df_bcb = create_bcb_dataframe(path_name_bcb)
 
     df_pix_ready = prepare_pix_data(df_pix)
-    df_bcb_ready = prepare_bcb_data(df_bcb)
+    df_bcb_ready = prepare_bcb_data(df_bcb, normalization_func=remove_accents)
 
     df_merged = merge_data(df_pix_ready, df_bcb_ready)
     
@@ -277,7 +277,7 @@ if __name__ == "__main__":
     df_bcb = create_bcb_dataframe(path_name_bcb)
 
     df_pix_ready = prepare_pix_data(df_pix)
-    df_bcb_ready = prepare_bcb_data(df_bcb)
+    df_bcb_ready = prepare_bcb_data(df_bcb, normalization_func=remove_accents)
 
     df_merged = merge_data(df_pix_ready, df_bcb_ready)
     df_silver = refine_final_data(df_merged, cleaning_func=clean_short_names)
