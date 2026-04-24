@@ -192,8 +192,6 @@ def clean_short_names(text):
 
     if pd.isna(text):
         return text
-    
-    text = str(text).upper()
 
     patterns = r'\b(S\.?A\.?|LTDA\.?|COOP\.?|SCD\.?|CFI\.?|CCB\.?)\b|S/A'
     text = re.sub(patterns, '', text)
