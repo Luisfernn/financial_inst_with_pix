@@ -189,6 +189,8 @@ def clean_short_names(text):
     patterns = r'\b(S\.?A\.?|LTDA\.?|COOP\.?|SCD\.?|CFI\.?|CCB\.?)\b|S/A'
     text = re.sub(patterns, '', text)
     
+    text = text.replace('.', '').replace('-', '')
+
     return re.sub(r'\s+', ' ', text).strip(' .')
 
 
