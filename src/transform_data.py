@@ -2,6 +2,7 @@ import pandas as pd
 from pathlib import Path
 import json
 import re
+import unicodedata
 
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -130,7 +131,12 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
 
         etapa = "Substituir str vazias por NaN em ['nome_fantasia']"
         df['nome_fantasia'] = df['nome_fantasia'].replace(r'^\s*$', pd.NA, regex=True)
-        
+
+        etapa = "Remover acentos e padronizar ['categoria']"
+        df['categoria'] = df['categoria'].apply(
+            lambda x: "".join(c for c in unicodedata.normalize('NFD', str(x)) if not unicodedata.combining(c)).lower().strip() if pd.notna(x) else x
+        )
+
         etapa = "Ordenar linhas iguais com NaN"
         df = df.sort_values(by='nome_fantasia', na_position='last')
 
