@@ -140,8 +140,15 @@ def prepare_bcb_data (df: pd.DataFrame, normalization_func: remove_accents) -> p
         etapa = "Substituir str vazias por NaN em ['nome_fantasia']"
         df['nome_fantasia'] = df['nome_fantasia'].replace(r'^\s*$', pd.NA, regex=True)
 
-        etapa = "Remover acentos e padronizar ['categoria']"
-        df['categoria'] = df['categoria'].apply(remove_accents).str.lower()
+        etapa = "Preenchimento forçado de ['categoria']"
+        # 1. Força a coluna a ser string, isso transforma o NaN no texto 'nan'
+        df['categoria'] = df['categoria'].astype(str)
+
+        # 2. Agora o TEXTO 'nan' é substituído por 'nao_classificada'
+        df['categoria'] = df['categoria'].replace(['nan', 'None', '', 'pd.NA'], 'nao_classificada')
+
+        # 3. Por fim, a coluna é normalizada
+        df['categoria'] = df['categoria'].apply(remove_accents).str.lower().str.strip()
 
         etapa = "Remover acentos, espaços vazios e padronizar com title case ['pais_sede']"
         df['pais_sede'] = df['pais_sede'].apply(remove_accents).str.title().str.strip()
