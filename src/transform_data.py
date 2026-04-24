@@ -224,6 +224,13 @@ def refine_final_data(df: pd.DataFrame, cleaning_func: clean_short_names) -> pd.
         
         # Aplica a limpeza textual na coluna de busca e padronização para lowercase
         df['nome_busca'] = df['nome_busca'].apply(clean_short_names).str.lower()
+ 
+        # Tratamento de nulos da coluna 'categoria' e padronização textual
+        df['categoria'] = df['categoria'].fillna('nao_classificada')
+        # Aplica a limpeza textual na coluna de categoria e padronização textual
+        df['categoria'] = df['categoria'].apply(remove_accents).str.lower().str.strip()
+        # Tratamento de nulos da coluna 'pais_sede' e padronização textual
+        df['pais_sede'] = df['pais_sede'].fillna('nao_informado').apply(remove_accents).str.title().str.strip()
         
         # Colunas que serão mantidas no DataFrame final
         cols_to_keep = ['ispb', 'nome_juridico', 'nome_busca', 'categoria', 'pais_sede', 'inicio_operacao']
