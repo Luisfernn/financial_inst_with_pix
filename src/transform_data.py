@@ -139,15 +139,9 @@ def prepare_bcb_data (df: pd.DataFrame, normalization_func: remove_accents) -> p
 
         etapa = "Substituir str vazias por NaN em ['nome_fantasia']"
         df['nome_fantasia'] = df['nome_fantasia'].replace(r'^\s*$', pd.NA, regex=True)
-        
-        etapa = "Tratamento de strings vazias e NaN em ['categoria']"
-        # 1. Primeiro transforma "" em NaN
-        df['categoria'] = df['categoria'].replace(r'^\s*$', pd.NA, regex=True)
-        # 2. Agora o fillna consegue pegar tudo
-        df['categoria'] = df['categoria'].fillna('nao_classificada')
 
         etapa = "Remover acentos e padronizar ['categoria']"
-        df['categoria'] = df['categoria'].apply(remove_accents).str.lower().str.strip()
+        df['categoria'] = df['categoria'].apply(remove_accents).str.lower()
 
         etapa = "Remover acentos, espaços vazios e padronizar com title case ['pais_sede']"
         df['pais_sede'] = df['pais_sede'].apply(remove_accents).str.title().str.strip()
