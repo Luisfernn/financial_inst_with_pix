@@ -147,8 +147,7 @@ def prepare_bcb_data (df: pd.DataFrame, normalization_func: remove_accents) -> p
         df['categoria'] = df['categoria'].fillna('nao_classificada')
 
         etapa = "Remover acentos e padronizar ['categoria']"
-        df['categoria'] = df['categoria'].apply(remove_accents).str.lower().str.strip(
-        )
+        df['categoria'] = df['categoria'].apply(remove_accents).str.lower().str.strip()
 
         etapa = "Remover acentos, espaços vazios e padronizar com title case ['pais_sede']"
         df['pais_sede'] = df['pais_sede'].apply(remove_accents).str.title().str.strip()
