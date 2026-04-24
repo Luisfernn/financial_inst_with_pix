@@ -222,8 +222,8 @@ def refine_final_data(df: pd.DataFrame, cleaning_func: clean_short_names) -> pd.
         # Cria coluna de busca de nome facilitado, preenchendo com a prioridade nome_fantasia -> nome_reduzido
         df['nome_busca'] = df['nome_fantasia'].fillna(df['nome_reduzido'])
         
-        # Aplica a limpeza textual na coluna de busca para garantir consistência
-        df['nome_busca'] = df['nome_busca'].apply(clean_short_names)
+        # Aplica a limpeza textual na coluna de busca e padronização para lowercase
+        df['nome_busca'] = df['nome_busca'].apply(clean_short_names).str.lower()
         
         # Colunas que serão mantidas no DataFrame final
         cols_to_keep = ['ispb', 'nome_juridico', 'nome_busca', 'categoria', 'pais_sede', 'inicio_operacao']
