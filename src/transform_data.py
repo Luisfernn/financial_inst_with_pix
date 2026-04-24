@@ -193,8 +193,8 @@ def clean_short_names(text):
     if pd.isna(text):
         return text
 
-    patterns = r'\b(S\.?A\.?|LTDA\.?|COOP\.?|SCD\.?|CFI\.?|CCB\.?)\b|S/A'
-    text = re.sub(patterns, '', text)
+    patterns = r'\b(BANCO|BCO|BANC|S\.?A\.?|LTDA\.?|COOP\.?|SCD\.?|CFI\.?|CCB\.?)\b|S/A'
+    text = re.sub(patterns, '', text, flags=re.IGNORECASE)
     
     text = text.replace('.', '').replace('-', '')
 
