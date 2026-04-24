@@ -132,7 +132,10 @@ def prepare_bcb_data (df: pd.DataFrame) -> pd.DataFrame:
         etapa = "Substituir str vazias por NaN em ['nome_fantasia']"
         df['nome_fantasia'] = df['nome_fantasia'].replace(r'^\s*$', pd.NA, regex=True)
         
-        etapa = "Preencher NaN de ['categoria'] com 'nao_classificada'"
+        etapa = "Tratamento de strings vazias e NaN em ['categoria']"
+        # 1. Primeiro transforma "" em NaN
+        df['categoria'] = df['categoria'].replace(r'^\s*$', pd.NA, regex=True)
+        # 2. Agora o fillna consegue pegar tudo
         df['categoria'] = df['categoria'].fillna('nao_classificada')
 
         etapa = "Remover acentos e padronizar ['categoria']"
