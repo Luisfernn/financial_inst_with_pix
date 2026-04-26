@@ -233,7 +233,7 @@ def refine_final_data(df: pd.DataFrame, cleaning_func: clean_short_names) -> pd.
         df['pais_sede'] = df['pais_sede'].fillna('nao_informado').apply(remove_accents).str.title().str.strip()
         
         # Colunas que serão mantidas no DataFrame final
-        cols_to_keep = ['ispb', 'nome_juridico', 'nome_busca', 'categoria', 'pais_sede', 'inicio_operacao']
+        cols_to_keep = ['ispb', 'nome_juridico', 'nome_busca', 'categoria', 'pais_sede']
 
         df_silver = df[cols_to_keep].copy()
 
