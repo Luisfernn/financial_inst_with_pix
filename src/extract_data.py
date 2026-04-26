@@ -1,6 +1,7 @@
 import requests
 import json
 
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import logging
@@ -8,6 +9,35 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 url_apibrasil = "https://brasilapi.com.br/api/pix/v1/participants"
 url_bcb = "https://olinda.bcb.gov.br/olinda/servico/BcBase/versao/v2/odata/EntidadesSupervisionadas(dataBase=@dataBase)?@dataBase='04-16-2026'&$top=10000&$format=json&$select=nomeDoPais,nomeEntidadeInteresse,codigoCNPJ8,codigoTipoEntidadeSupervisionada,descricaoTipoEntidadeSupervisionada,nomeFantasia,indicadorEsferaPublica"
+
+
+def get_last_business_day(date_ref=None):
+    """
+    Retorna o último dia útil formatado para a API do BCB (MM-DD-YYYY).
+    Aceita strings do Airflow (YYYY-MM-DD) ou objetos datetime.
+    """
+    # 1. Se receber a string do Airflow (YYYY-MM-DD), converte para objeto datetime
+    if isinstance(date_ref, str):
+        try:
+            date_ref = datetime.strptime(date_ref, '%Y-%m-%d')
+        except ValueError:
+            # Caso você passe no formato brasileiro por erro, por exemplo
+            date_ref = datetime.strptime(date_ref, '%d-%m-%Y')
+    
+    # 2. Se não vier nada, usa o "agora"
+    if date_ref is None:
+        date_ref = datetime.now()
+
+    # 3. Lógica de fim de semana
+    if date_ref.weekday() == 5:  # Sábado -> Sexta
+        date_ref = date_ref - timedelta(days=1)
+    elif date_ref.weekday() == 6:  # Domingo -> Sexta
+        date_ref = date_ref - timedelta(days=2)
+    
+    # 4. Formatação específica para a URL (Mês-Dia-Ano)
+    return date_ref.strftime('%m-%d-%Y')
+
+
 
 def extract_pix_data(url: str) -> list:
     """
@@ -41,6 +71,7 @@ def extract_pix_data(url: str) -> list:
         logging.error(f"Erro ao extrair dados da API: {e}")
         return []
     
+
 
 def extract_bcb_reference(url: str) -> list:
     """
