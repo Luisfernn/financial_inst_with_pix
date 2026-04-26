@@ -16,7 +16,6 @@ BRONZE_BCB = BASE_DIR / 'data' / 'bronze' / 'bcb_reference.json'
 SILVER_FINAL = BASE_DIR / 'data' / 'silver' / 'final_institutions.parquet'
 
 URL_PIX = os.getenv("URL_PIX")
-URL_BCB = os.getenv("URL_BCB")
 
 def run_pipeline():
     try:
@@ -24,7 +23,7 @@ def run_pipeline():
 
         # 1. Extração
         extract_pix_data(URL_PIX)
-        extract_bcb_reference(URL_BCB)
+        extract_bcb_reference()
 
         # 2. Transformação (Aqui o main chama a função que faz tudo)
         df_silver = process_transformation(BRONZE_PIX, BRONZE_BCB)
