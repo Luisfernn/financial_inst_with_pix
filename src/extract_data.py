@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 load_dotenv()
 
-url_apibrasil = "https://brasilapi.com.br/api/pix/v1/participants"
+url_pix = os.getenv("URL_PIX")
 
 def get_last_business_day(date_ref=None):
     """
@@ -117,5 +117,5 @@ def extract_bcb_reference(data_customizada: str = None) -> list:
 
 if __name__ == "__main__":
 
-    extract_pix_data(url_apibrasil)
+    extract_pix_data(url_pix)
     extract_bcb_reference()
