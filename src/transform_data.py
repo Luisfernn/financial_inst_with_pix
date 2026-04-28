@@ -222,8 +222,8 @@ def refine_final_data(df: pd.DataFrame, cleaning_func: clean_short_names) -> pd.
         # Cria coluna de busca de nome facilitado, preenchendo com a prioridade nome_fantasia -> nome_reduzido
         df['nome_busca'] = df['nome_fantasia'].fillna(df['nome_reduzido'])
         
-        # Aplica a limpeza textual na coluna de busca e padronização para lowercase
-        df['nome_busca'] = df['nome_busca'].apply(clean_short_names).str.lower()
+        # Aplica a limpeza textual na coluna de busca, remoção de acentos e padronização para lowercase
+        df['nome_busca'] = df['nome_busca'].apply(clean_short_names).apply(remove_accents).str.lower()
  
         # Tratamento de nulos da coluna 'categoria' e padronização textual
         df['categoria'] = df['categoria'].fillna('nao_classificada')
