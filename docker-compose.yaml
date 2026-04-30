@@ -187,6 +187,7 @@ services:
       PARQUET_PATH: ${PARQUET_PATH}
       SQL_SCRIPT_PATH: ${SQL_SCRIPT_PATH}
       AIRFLOW_UID: ${AIRFLOW_UID}
+      PYTHONPATH: /opt/airflow
       DUMB_INIT_SETSID: "0"
     restart: always
     depends_on:
