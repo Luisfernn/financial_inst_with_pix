@@ -8,7 +8,7 @@ from sqlalchemy import create_engine, text
 db_url = os.getenv("DB_URL")
 parquet_path = os.getenv("PARQUET_PATH")
 sql_path = os.getenv("SQL_SCRIPT_PATH")
-load_mode = os.getenv("LOAD_MODE")
+load_mode = os.getenv("LOAD_MODE", 'append')
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
