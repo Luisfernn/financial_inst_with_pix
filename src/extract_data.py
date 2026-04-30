@@ -4,12 +4,9 @@ import json
 
 from datetime import datetime, timedelta
 from pathlib import Path
-from dotenv import load_dotenv
 
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-load_dotenv()
 
 url_pix = os.getenv("URL_PIX")
 

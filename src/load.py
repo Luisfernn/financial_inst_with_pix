@@ -4,9 +4,6 @@ import logging
 from pathlib import Path
 from datetime import datetime
 from sqlalchemy import create_engine, text
-from dotenv import load_dotenv
-
-load_dotenv()
 
 db_url = os.getenv("DB_URL")
 parquet_path = os.getenv("PARQUET_PATH")
