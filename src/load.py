@@ -11,6 +11,7 @@ load_dotenv()
 db_url = os.getenv("DB_URL")
 parquet_path = os.getenv("PARQUET_PATH")
 sql_path = os.getenv("SQL_SCRIPT_PATH")
+load_mode = os.getenv("LOAD_MODE")
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -66,7 +67,7 @@ def load_to_db (db_url, parquet_path, sql_path):
         logging.info(f"Colunas do DataFrame: {list(df.columns)}")
         
         with engine.begin() as conn:
-            df.to_sql('financial_inst_pix', con=conn, if_exists='append', index=False)
+            df.to_sql('financial_inst_pix', con=conn, if_exists=load_mode, index=False)
             
         logging.info("Carga concluída com sucesso!")
 
