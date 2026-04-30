@@ -11,7 +11,7 @@ from src.load import load_to_db
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 load_dotenv()
 
-BASE_DIR = os.getenv("PROJECT_ROOT", Path(__file__).parent.parent) 
+BASE_DIR = Path(os.getenv("PROJECT_ROOT", Path(__file__).parent.parent))
 BRONZE_PIX = BASE_DIR / 'data' / 'bronze' / 'pix_data.json'
 BRONZE_BCB = BASE_DIR / 'data' / 'bronze' / 'bcb_reference.json'
 SILVER_FINAL = BASE_DIR / 'data' / 'silver' / 'final_institutions.parquet'
