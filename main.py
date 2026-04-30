@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from src.extract_data import extract_pix_data, extract_bcb_reference
 from src.transform_data import process_transformation
 from src.load import save_to_silver
+from src.load import load_to_db
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 load_dotenv()
@@ -17,21 +18,35 @@ SILVER_FINAL = BASE_DIR / 'data' / 'silver' / 'final_institutions.parquet'
 
 URL_PIX = os.getenv("URL_PIX")
 
+db_url = os.getenv("DB_URL")
+parquet_path = SILVER_FINAL
+sql_path = BASE_DIR / 'sql_scripts' / 'create_table.sql'
+
+
 def run_pipeline():
-    try:
-        logging.info("Iniciando Pipeline...")
+
+    try:   
+
+       db_url = os.getenv("DB_URL")
+       parquet_path = SILVER_FINAL
+       sql_path = BASE_DIR / 'sql_scripts' / 'create_table.sql'
+
+       logging.info("Iniciando Pipeline...")
 
         # 1. Extração
-        extract_pix_data(URL_PIX)
-        extract_bcb_reference()
+       extract_pix_data(URL_PIX)
+       extract_bcb_reference()
 
-        # 2. Transformação (Aqui o main chama a função que faz tudo)
-        df_silver = process_transformation(BRONZE_PIX, BRONZE_BCB)
+       # 2. Transformação (Aqui o main chama a função que faz tudo)
+       df_silver = process_transformation(BRONZE_PIX, BRONZE_BCB)
 
-        # 3. Load
-        save_to_silver(df_silver, SILVER_FINAL)
+       # 3. Load to Silver
+       save_to_silver(df_silver, SILVER_FINAL)
 
-        logging.info("Pipeline concluída com sucesso!")
+       # 4. Load to DB
+       load_to_db(db_url, parquet_path, sql_path)
+
+       logging.info("Pipeline concluída com sucesso!")
 
     except Exception as e:
         logging.error(f"❌ Erro: {e}")
