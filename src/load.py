@@ -68,7 +68,7 @@ def load_to_db (db_url, parquet_path, sql_path):
         with engine.begin() as conn:
             df.to_sql('financial_inst_pix', con=conn, if_exists='append', index=False)
             
-        logging.info("✅ Carga concluída com sucesso!")
+        logging.info("Carga concluída com sucesso!")
 
     except Exception as e:
         logging.error(f"Erro na inserção: {e}")
