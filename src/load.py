@@ -41,34 +41,38 @@ def save_to_silver(df: pd.DataFrame, output_path: Path):
 
 def load_to_db (db_url, parquet_path, sql_path):
     """
-    Carrega o DataFrame resultante da transformação para um banco de dados relacional.
+    Orquestra a carga de dados no banco: conexão, criação e inserção.
     """
+    
+    engine = create_engine(db_url)
 
     try:
-        engine = create_engine(db_url)
-
+        logging.info("Criando tabela no banco de dados...")
         with open (sql_path, 'r', encoding='utf-8') as f:
             create_table_script = f.read()
-
-        df = pd.read_parquet(parquet_path)
-
+        
         with engine.begin() as conn:
-            logging.info("Conectado! Verificando estrutura da tabela...")
             conn.execute(text(create_table_script))
-            logging.info(f"Estrutura da tabela verificada. Iniciando carga de {len(df)}...")
-
-            df.to_sql(
-                'financial_inst_pix',
-                con=conn, 
-                if_exists='append', 
-                index=False,
-                method='multi'
-            )
-
-            logging.info("Sucesso! Dados carregados no banco 'pix_db' sem erros.")
 
     except Exception as e:
-        logging.error(f"Falha no carregamento. O banco permanece intacto. Erro: {e}") 
+        logging.error(f"Erro ao criar tabela: {e}")
+        raise e        
+        
+
+    try:
+        logging.info("Lendo arquivo e inserindo dados...")
+        df = pd.read_parquet(parquet_path)
+        
+        logging.info(f"Colunas do DataFrame: {list(df.columns)}")
+        
+        with engine.begin() as conn:
+            df.to_sql('financial_inst_pix', con=conn, if_exists='append', index=False)
+            
+        logging.info("✅ Carga concluída com sucesso!")
+
+    except Exception as e:
+        logging.error(f"Erro na inserção: {e}")
+        raise e   
 
 
 if __name__ == "__main__":
