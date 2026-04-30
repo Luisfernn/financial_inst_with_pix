@@ -3,13 +3,14 @@ import logging
 from pathlib import Path
 from dotenv import load_dotenv
 
+load_dotenv()
+
 from src.extract_data import extract_pix_data, extract_bcb_reference
 from src.transform_data import process_transformation
 from src.load import save_to_silver
 from src.load import load_to_db
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-load_dotenv()
 
 BASE_DIR = Path(os.getenv("PROJECT_ROOT", Path(__file__).parent.parent))
 BRONZE_PIX = BASE_DIR / 'data' / 'bronze' / 'pix_data.json'
