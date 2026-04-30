@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 from airflow.decorators import dag, task
-from airflow.providers.postgres.operators.postgres import SQLExecuteQueryOperator
+from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
 
 # Imports das funções de cada etapa do pipeline
 from src.extract_data import extract_pix_data, extract_bcb_reference
