@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "apache-airflow>=3.2.1",
+    "apache-airflow-providers-postgres>=6.6.3",
     "fastparquet>=2026.3.0",
     "pandas>=3.0.2",
     "psycopg2-binary>=2.9.11",
