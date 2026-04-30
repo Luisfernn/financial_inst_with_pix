@@ -65,10 +65,10 @@ def load_to_db (db_url, parquet_path, sql_path):
                 method='multi'
             )
 
-            logging.info("✅ Sucesso! Dados carregados no banco 'pix_db' sem erros.")
+            logging.info("Sucesso! Dados carregados no banco 'pix_db' sem erros.")
 
     except Exception as e:
-        logging.error(f"❌ Falha no carregamento. O banco permanece intacto. Erro: {e}") 
+        logging.error(f"Falha no carregamento. O banco permanece intacto. Erro: {e}") 
 
 
 if __name__ == "__main__":
