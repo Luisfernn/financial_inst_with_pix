@@ -21,6 +21,7 @@ data/*json
 data/*parquet
 config/
 *.env
+*.local
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
