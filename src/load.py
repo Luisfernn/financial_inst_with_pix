@@ -18,7 +18,9 @@ def save_to_silver(df: pd.DataFrame, output_path: Path):
     """
     Salva o DataFrame resultante da transformação na camada Silver em formato Parquet.
     """
-       
+
+    output_path = Path(output_path)
+
     try:
         if df is None or df.empty:
             logging.error("Dados inválidos ou vazios. Abortando carga.")
