@@ -1,3 +1,4 @@
+import src.config
 import os
 import requests
 import json

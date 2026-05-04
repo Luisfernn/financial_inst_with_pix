@@ -1,3 +1,4 @@
+import src.config
 import os
 import pandas as pd
 import logging
