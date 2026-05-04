@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 from airflow.decorators import dag, task
-from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
+from airflow.providers.postgres.operators.postgres import SQLExecuteQueryOperator
 
 # Imports das funções de cada etapa do pipeline
 from src.extract_data import extract_pix_data, extract_bcb_reference
@@ -29,7 +29,7 @@ def financial_etl():
     # Usa a conexão 'postgres_default' injetada via variável de ambiente no Docker
     clean_table = SQLExecuteQueryOperator(
         task_id='truncate_target_table',
-        postgres_conn_id='postgres_default',
+        conn_id='postgres_default',
         sql="TRUNCATE TABLE financial_inst_pix;"
     )
 
