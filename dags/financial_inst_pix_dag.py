@@ -58,7 +58,7 @@ def financial_etl():
         airflow_db_url = hook.get_uri()
         
         # 4. Executa a carga usando a URL provida pelo Airflow
-        load_to_db(db_url=airflow_db_url, data=transformed_data, sql_path=PATH_SQL)
+        load_to_db(db_url=airflow_db_url, parquet_path=PATH_PARQUET, sql_path=PATH_SQL)
 
     # Fluxo
     # A extração deve ocorrer antes da transformação
