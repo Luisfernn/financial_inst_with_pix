@@ -74,7 +74,8 @@ def extract_pix_data(url: str = url_pix) -> list:
 
 def extract_bcb_reference(data_customizada: str = None) -> list:
     """
-    Extrai os dados de referência das instituições supervisionadas pelo Banco Central e salva em um arquivo JSON.
+    Extrai os dados de referência das instituições e salva em um arquivo JSON.
+    Se data_referencia for None, busca do sistema.
     """
     
     base_url = os.getenv("BCB_BASE_URL")
