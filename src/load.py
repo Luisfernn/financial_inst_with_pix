@@ -78,5 +78,5 @@ def load_to_db (db_url, parquet_path, sql_path):
 
 if __name__ == "__main__":
 
-    save_to_silver()
+    save_to_silver(df=None, output_path=parquet_path) # Testa a função de salvar com dados inválidos
     load_to_db(db_url, parquet_path, sql_path)
