@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from airflow.decorators import dag, task
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
+from airflow.providers.postgres.hooks.postgres import PostgresHook
 
 
 from src.extract_data import extract_pix_data, extract_bcb_reference
@@ -26,7 +27,7 @@ def financial_etl():
     # Limpeza da tabela de destino antes de cada carga
     clean_table = SQLExecuteQueryOperator(
         task_id='truncate_target_table',
-        conn_id='postgres_default',
+        conn_id='postgres_pix',
         sql="TRUNCATE TABLE financial_inst_pix;"
     )
 
@@ -49,7 +50,15 @@ def financial_etl():
     @task
     def load(transformed_data):
         save_to_silver(transformed_data, PATH_PARQUET)
-        load_to_db(db_url=DB_URL, data=transformed_data, sql_path=PATH_SQL)
+    
+        # Em vez de usar a variável global DB_URL, usa o Hook.
+        hook = PostgresHook(postgres_conn_id='postgres_pix')
+        
+        # 3. O Hook extrai a URI de conexão formatada corretamente para o SQLAlchemy/Pandas
+        airflow_db_url = hook.get_uri()
+        
+        # 4. Executa a carga usando a URL provida pelo Airflow
+        load_to_db(db_url=airflow_db_url, data=transformed_data, sql_path=PATH_SQL)
 
     # Fluxo
     # A extração deve ocorrer antes da transformação
