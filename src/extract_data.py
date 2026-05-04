@@ -38,9 +38,9 @@ def get_last_business_day(date_ref=None):
 
 
 
-def extract_pix_data(url: str) -> list:
+def extract_pix_data(url: str = url_pix) -> list:
     """
-    Extrai os dados de PIX a partir da API e salva em um arquivo JSON.
+    Extrai os dados de PIX e salva em um arquivo JSON. Se 'url' não for passado, usa a variável do .env por padrão
     """
 
     try:

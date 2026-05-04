@@ -10,6 +10,7 @@ from src.transform_data import process_transformation
 from src.load import save_to_silver, load_to_db
 
 # Configurações lidas do ambiente (Docker + .env)
+URL_PIX = os.getenv("URL_PIX")
 DB_URL = os.getenv("DB_URL")
 PATH_PARQUET = os.getenv("PARQUET_PATH", "/opt/airflow/data/dados_instituicoes.parquet")
 PATH_SQL = os.getenv("SQL_SCRIPT_PATH", "/opt/airflow/scripts_sql/create_table.sql")
