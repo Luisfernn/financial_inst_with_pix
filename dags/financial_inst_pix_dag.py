@@ -16,7 +16,7 @@ PATH_PARQUET = os.getenv("PARQUET_PATH", "/opt/airflow/data/dados_instituicoes.p
 PATH_SQL = os.getenv("SQL_SCRIPT_PATH", "/opt/airflow/sql_scripts/create_table.sql")
 
 @dag(
-    dag_id='pipeline_instituicoes_financeiras_v3',
+    dag_id='pipeline_instituicoes_financeiras_pix',
     start_date=datetime(2026, 4, 1),
     schedule='@daily',
     catchup=False,
